@@ -1,6 +1,6 @@
 # Laravel Book Rental API
 
-This is a **Book Rental API** built with Laravel and Docker, following best practices such as the **Service and Repository pattern**, **JWT authentication**, and **Dockerization** for easy setup and deployment.
+This is a **Book Rental API** built with Laravel and Docker.
 
 ## Features
 
