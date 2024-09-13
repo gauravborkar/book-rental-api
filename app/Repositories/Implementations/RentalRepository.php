@@ -68,6 +68,20 @@ class RentalRepository implements RentalRepositoryInterface
     }
 
     /**
+     * Get rental history for a specific book by book ID.
+     *
+     * @param int $bookId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getRentalHistoryByBookId(int $bookId)
+    {
+        return Rental::with('user')
+            ->where('book_id', $bookId)
+            ->orderBy('rented_at', 'desc')
+            ->get();
+    }
+    
+    /**
      * Get rentals that are overdue (not returned within 2 weeks).
      */
     public function getOverdueRentals()

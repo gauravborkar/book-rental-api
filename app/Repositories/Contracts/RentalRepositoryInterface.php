@@ -10,6 +10,8 @@ interface RentalRepositoryInterface
 
     public function getRentalHistoryByUserId(int $userId);
 
+    public function getRentalHistoryByBookId(int $bookId);
+    
     public function getOverdueRentals(); 
 
     public function markAsOverdue($rental); 

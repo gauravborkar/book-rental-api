@@ -44,6 +44,17 @@ class RentalService
     }
 
     /**
+     * Get rental history for a book.
+     *
+     * @param int $bookId
+     * @return mixed
+     */
+    public function getRentalHistoryForBook(int $bookId)
+    {
+        return $this->rentalRepository->getRentalHistoryByBookId($bookId);
+    }
+
+    /**
      * Mark overdue rentals if not returned within 2 weeks.
      * This method will be triggered by a scheduled command.
      */

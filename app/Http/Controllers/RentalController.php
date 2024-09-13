@@ -143,4 +143,57 @@ class RentalController extends Controller
         $history = $this->rentalService->getRentalHistoryForUser(auth()->user()->id);
         return response()->json($history);
     }
+
+        /**
+     * @OA\Get(
+     *     path="/api/v1/books/{id}/rental-history",
+     *     summary="Get rental history for a book",
+     *     description="Retrieve the rental history for a specific book by its ID",
+     *     tags={"Books"},
+     *     security={{"Bearer":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the book",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Rental history retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="rental_history", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="user", type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="John Doe")
+     *                     ),
+     *                     @OA\Property(property="rented_at", type="string", format="date-time", example="2024-01-01 12:00:00"),
+     *                     @OA\Property(property="return_date", type="string", format="date-time", example="2024-01-14 12:00:00"),
+     *                     @OA\Property(property="status", type="string", example="returned")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Book not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Book not found")
+     *         )
+     *     )
+     * )
+     */
+    public function rentalHistoryForBook($id): JsonResponse
+    {
+        $rentalHistory = $this->rentalService->getRentalHistoryForBook($id);
+
+        return response()->json([
+            'status' => 'success',
+            'rental_history' => $rentalHistory
+        ], 200);
+    }
 }

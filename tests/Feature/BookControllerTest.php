@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Book;
 use App\Models\User;
+use App\Models\Rental;
 
 class BookControllerTest extends TestCase
 {
@@ -92,5 +93,52 @@ class BookControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'Clean Code'])
             ->assertJsonMissing(['name' => 'Design Patterns']);
+    }
+
+    /**
+     * Test fetching rental history for a book.
+     *
+     * @return void
+     */
+    public function test_can_fetch_rental_history_for_book()
+    {
+        // Create a user
+        $user = User::factory()->create();
+
+        // Create a book
+        $book = Book::factory()->create([
+            'name' => 'Clean Code',
+            'genre' => 'Programming',
+            'quantity' => 10,
+        ]);
+
+        // Create rentals for the book
+        Rental::factory()->create([
+            'book_id' => $book->id,
+            'user_id' => $user->id,
+            'rented_at' => now()->subDays(10),
+            'return_date' => now()->subDays(2),
+            'status' => 'returned',
+        ]);
+
+        // Act as the user and fetch the rental history
+        $this->actingAs($user, 'api')
+            ->getJson('/api/v1/books/' . $book->id . '/rental-history')
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'rental_history' => [
+                    '*' => [
+                        'id',
+                        'user' => [
+                            'id',
+                            'name',
+                        ],
+                        'rented_at',
+                        'return_date',
+                        'status',
+                    ],
+                ],
+            ]);
     }
 }
