@@ -15,7 +15,25 @@ class StatsController extends Controller
     }
 
     /**
-     * Get stats for the most overdue, most popular, and least popular books.
+     * @OA\Get(
+     *     path="/api/v1/rentals/stats",
+     *     summary="Get the most overdue book",
+     *     description="Stats to show the most overdue book, most popular and least popular",
+     *     operationId="getStats",
+     *     tags={"Statistics"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Stats retrieved successfully",
+     *         
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No overdue books found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="No overdue books found")
+     *         )
+     *     )
+     * )
      */
     public function getStats(): JsonResponse
     {

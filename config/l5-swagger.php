@@ -5,7 +5,9 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
+                'title' => env('L5_SWAGGER_API_TITLE', 'Book Rental API'),
+                'description' => env('L5_SWAGGER_API_DESCRIPTION', 'API documentation for Book Rental Service'),
+                'version' => env('L5_SWAGGER_API_VERSION', '1.0.0'),
             ],
 
             'routes' => [
