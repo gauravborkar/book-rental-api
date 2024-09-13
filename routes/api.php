@@ -23,5 +23,7 @@ Route::prefix('v1')->group(function () {
         // Rental history and statistics
         Route::get('rentals/history', [RentalController::class, 'rentalHistory']);
         Route::get('rentals/stats', [StatsController::class, 'getStats']);
+
+        Route::post('/logout', [AuthController::class, 'logout']);
     });
 });

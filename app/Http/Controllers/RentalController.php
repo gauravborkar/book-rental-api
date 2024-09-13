@@ -23,11 +23,12 @@ class RentalController extends Controller
      * Rent a book for a user.
      * 
      * @OA\Post(
-     *     path="/api/v1/rent",
+     *     path="/api/v1/books/rent",
      *     summary="Rent a book",
      *     description="Rent a book for a specific user",
      *     operationId="rentBook",
      *     tags={"Rental"},
+     *     security={{"Bearer":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -69,11 +70,12 @@ class RentalController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/return",
+     *     path="/api/v1/books/return",
      *     summary="Return a rented book",
      *     description="Return a rented book for a specific user",
      *     operationId="returnBook",
      *     tags={"Rental"},
+     *     security={{"Bearer":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -115,21 +117,23 @@ class RentalController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/rentals/history",
-     *     summary="View rental history",
-     *     description="Retrieve the rental history for a specific user",
-     *     operationId="viewRentalHistory",
+     *     summary="Get rental history for a user",
+     *     description="Return a rented book for a specific user",
+     *     operationId="rentalHistory",
      *     tags={"Rental"},
-     *     security={{ "bearerAuth": {} }},
+     *     security={{"Bearer":{}}},
      *     @OA\Response(
      *         response=200,
-     *         description="Rental history retrieved successfully",
-     *         
+     *         description="Book returned successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Book returned successfully")
+     *         )
      *     ),
      *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized",
+     *         response=400,
+     *         description="Validation Error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="error", type="string", example="Unauthorized")
+     *             @OA\Property(property="error", type="string", example="Invalid input")
      *         )
      *     )
      * )

@@ -21,10 +21,13 @@ class StatsController extends Controller
      *     description="Stats to show the most overdue book, most popular and least popular",
      *     operationId="getStats",
      *     tags={"Statistics"},
+     *     security={{"Bearer":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Stats retrieved successfully",
-     *         
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="string", example="Stats retrieved successfully")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,

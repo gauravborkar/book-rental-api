@@ -24,6 +24,7 @@ class BookController extends Controller
      *     description="Retrieve a list of books with optional filters for name and genre",
      *     operationId="searchBooks",
      *     tags={"Books"},
+     *     security={{"Bearer":{}}},
      *     @OA\Parameter(
      *         name="name",
      *         in="query",
@@ -41,7 +42,9 @@ class BookController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Books retrieved successfully",
-     *         
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="string", example="Books retrieved successfully")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,

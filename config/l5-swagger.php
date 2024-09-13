@@ -233,6 +233,12 @@ return [
                     */
                 ],
             ],
+            'Bearer' => [
+                'type' => 'apiKey',
+                'description' => 'Enter your JWT token in the format: Bearer {token}',
+                'name' => 'Authorization',
+                'in' => 'header',
+            ],
         ],
 
         /*
@@ -316,5 +322,10 @@ return [
         'constants' => [
             'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
         ],
+
+        'default_headers' => [
+            'Accept' => 'application/json',
+        ],
+
     ],
 ];

@@ -211,6 +211,63 @@
                 },
                 "security": [
                     {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout user",
+                "description": "Logs out the authenticated user by invalidating their token",
+                "operationId": "c4eddaf1a2e990cc90e4326c0d731d41",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to logout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to logout, please try again."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
                         "bearerAuth": []
                     }
                 ]
@@ -248,7 +305,20 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Books retrieved successfully"
+                        "description": "Books retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "string",
+                                            "example": "Books retrieved successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "No books found",
@@ -266,10 +336,15 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
-        "/api/v1/rent": {
+        "/api/v1/books/rent": {
             "post": {
                 "tags": [
                     "Rental"
@@ -334,10 +409,15 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
-        "/api/v1/return": {
+        "/api/v1/books/return": {
             "post": {
                 "tags": [
                     "Rental"
@@ -402,7 +482,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/api/v1/rentals/history": {
@@ -410,22 +495,35 @@
                 "tags": [
                     "Rental"
                 ],
-                "summary": "View rental history",
-                "description": "Retrieve the rental history for a specific user",
-                "operationId": "viewRentalHistory",
+                "summary": "Get rental history for a user",
+                "description": "Return a rented book for a specific user",
+                "operationId": "rentalHistory",
                 "responses": {
                     "200": {
-                        "description": "Rental history retrieved successfully"
+                        "description": "Book returned successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Book returned successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    "400": {
+                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "error": {
                                             "type": "string",
-                                            "example": "Unauthorized"
+                                            "example": "Invalid input"
                                         }
                                     },
                                     "type": "object"
@@ -436,7 +534,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "Bearer": []
                     }
                 ]
             }
@@ -451,7 +549,20 @@
                 "operationId": "getStats",
                 "responses": {
                     "200": {
-                        "description": "Stats retrieved successfully"
+                        "description": "Stats retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "string",
+                                            "example": "Stats retrieved successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "No overdue books found",
@@ -469,7 +580,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         }
     },

@@ -42,10 +42,6 @@ class AuthControllerTest extends TestCase
             'password' => 'password123',
         ]);
 
-        // echo "<pre>";
-        // print_r($response);
-        // exit;
-
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'access_token', 'token_type', 'expires_in'

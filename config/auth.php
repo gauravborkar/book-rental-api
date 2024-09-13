@@ -36,10 +36,6 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'sessions',
-            'provider' => 'users',
-        ],
         'api' => [
             'driver' => 'jwt', // Use 'jwt' if you're using JWT authentication.
             'provider' => 'users',

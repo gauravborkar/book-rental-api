@@ -129,7 +129,7 @@ class AuthController extends Controller
      *     description="Retrieve the authenticated user's details",
      *     operationId="getUser",
      *     tags={"Authentication"},
-     *     security={{ "bearerAuth": {} }},
+     *     security={{"Bearer":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="User data",
@@ -151,5 +151,48 @@ class AuthController extends Controller
     public function getUser(Request $request)
     {
         return response()->json(Auth::guard('api')->user());
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/v1/logout",
+     *     summary="Logout user",
+     *     description="Logs out the authenticated user by invalidating their token",
+     *     tags={"Authentication"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successfully logged out",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Successfully logged out")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to logout",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Failed to logout, please try again.")
+     *         )
+     *     ),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
+    public function logout()
+    {
+        try {
+            // Invalidate the user's JWT token
+            auth()->logout();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Successfully logged out'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to logout, please try again.'
+            ], 500);
+        }
     }
 }
