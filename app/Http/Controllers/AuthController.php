@@ -52,4 +52,12 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
+
+    /**
+     * Get the authenticated User.
+     */
+    public function getUser(Request $request)
+    {
+        return response()->json(Auth::guard('api')->user());
+    }
 }

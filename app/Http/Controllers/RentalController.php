@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\RentalService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RentalController extends Controller
 {
@@ -20,9 +21,13 @@ class RentalController extends Controller
      */
     public function rent(Request $request): JsonResponse
     {
-        $this->validate($request, [
-            'book_id' => 'required|exists:books,id'
+        $validator = Validator::make($request->all(), [
+            'book_id' => 'required|exists:books,id',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
 
         $result = $this->rentalService->rentBook(auth()->user()->id, $request->book_id);
         return response()->json($result);
@@ -33,9 +38,13 @@ class RentalController extends Controller
      */
     public function returnBook(Request $request): JsonResponse
     {
-        $this->validate($request, [
-            'book_id' => 'required|exists:books,id'
+        $validator = Validator::make($request->all(), [
+            'book_id' => 'required|exists:books,id',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
 
         $result = $this->rentalService->returnBook(auth()->user()->id, $request->book_id);
         return response()->json($result);

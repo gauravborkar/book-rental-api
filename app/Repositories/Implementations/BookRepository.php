@@ -7,11 +7,28 @@ use App\Repositories\Contracts\BookRepositoryInterface;
 
 class BookRepository implements BookRepositoryInterface
 {
-    public function searchBooks($name, $genre)
+    /**
+     * Get books with optional filters (name and genre).
+     * 
+     * @param array $filters
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function searchBooks(array $filters)
     {
-        return Book::where('name', 'LIKE', "%{$name}%")
-                   ->where('genre', $genre)
-                   ->get();
+        $query = Book::query();
+
+        // Apply name filter if provided
+        if (!empty($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
+        }
+
+        // Apply genre filter if provided
+        if (!empty($filters['genre'])) {
+            $query->where('genre', 'like', '%' . $filters['genre'] . '%');
+        }
+
+        // Return the result
+        return $query->get();
     }
 
     /**

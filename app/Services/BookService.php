@@ -13,8 +13,8 @@ class BookService
         $this->bookRepository = $bookRepository;
     }
 
-    public function searchBooks($name, $genre)
+    public function searchBooks(array $filters)
     {
-        return $this->bookRepository->searchBooks($name, $genre);
+        return $this->bookRepository->searchBooks($filters);
     }
 }

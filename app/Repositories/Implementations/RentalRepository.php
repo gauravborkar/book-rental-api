@@ -6,6 +6,7 @@ use App\Models\Rental;
 use App\Models\Book;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Contracts\RentalRepositoryInterface;
+use Carbon\Carbon;
 
 class RentalRepository implements RentalRepositoryInterface
 {

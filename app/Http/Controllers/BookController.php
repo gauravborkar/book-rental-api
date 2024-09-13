@@ -16,9 +16,13 @@ class BookController extends Controller
 
     public function search(Request $request)
     {
-        $name = $request->get('name');
-        $genre = $request->get('genre');
+        // Extract filters from query parameters
+        $filters = $request->only(['name', 'genre']);
 
-        return $this->bookService->searchBooks($name, $genre);
+        // Call the service to retrieve filtered books
+        $books = $this->bookService->searchBooks($filters);
+
+        // Return the result as JSON
+        return response()->json($books);
     }
 }
