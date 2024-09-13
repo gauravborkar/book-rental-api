@@ -18,8 +18,8 @@ class BookControllerTest extends TestCase
     public function test_can_fetch_all_books()
     {
         // Create some books in the database
-        Book::factory()->create(['name' => 'Clean Code', 'genre' => 'Programming']);
-        Book::factory()->create(['name' => 'Refactoring', 'genre' => 'Programming']);
+        Book::factory()->create(['title' => 'Pride and Prejudice', 'author' => 'Jane Austen', 'isbn' => '9780141199078', 'genre' => 'Romance']);
+        Book::factory()->create(['title' => 'To Kill a Mockingbird', 'author' => 'Harper Lee', 'isbn' => '9780060935467', 'genre' => 'Classics']);
 
         // Create a user and authenticate the request
         $user = User::factory()->create();
@@ -38,19 +38,19 @@ class BookControllerTest extends TestCase
     public function test_can_fetch_books_with_name_filter()
     {
         // Create some books in the database
-        Book::factory()->create(['name' => 'Clean Code', 'genre' => 'Programming']);
-        Book::factory()->create(['name' => 'Refactoring', 'genre' => 'Programming']);
+        Book::factory()->create(['title' => 'Pride and Prejudice', 'author' => 'Jane Austen', 'isbn' => '9780141199078', 'genre' => 'Romance']);
+        Book::factory()->create(['title' => 'To Kill a Mockingbird', 'author' => 'Harper Lee', 'isbn' => '9780060935467', 'genre' => 'Classics']);
 
         // Create a user and authenticate the request
         $user = User::factory()->create();
 
         // Act as the authenticated user and fetch books with a name filter
-        $response = $this->actingAs($user, 'api')->getJson('/api/v1/books?name=Clean');
+        $response = $this->actingAs($user, 'api')->getJson('/api/v1/books?title=Pride');
 
         // Assert that only the "Clean Code" book is returned
         $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'Clean Code'])
-            ->assertJsonMissing(['name' => 'Refactoring']);
+            ->assertJsonFragment(['title' => 'Pride and Prejudice'])
+            ->assertJsonMissing(['title' => 'To Kill a Mockingbird']);
     }
 
     /**
@@ -59,19 +59,19 @@ class BookControllerTest extends TestCase
     public function test_can_fetch_books_with_genre_filter()
     {
         // Create some books in the database
-        Book::factory()->create(['name' => 'Clean Code', 'genre' => 'Programming']);
-        Book::factory()->create(['name' => 'Design Patterns', 'genre' => 'Architecture']);
+        Book::factory()->create(['title' => 'Pride and Prejudice', 'author' => 'Jane Austen', 'isbn' => '9780141199078', 'genre' => 'Romance']);
+        Book::factory()->create(['title' => 'To Kill a Mockingbird', 'author' => 'Harper Lee', 'isbn' => '9780060935467', 'genre' => 'Classics']);
 
         // Create a user and authenticate the request
         $user = User::factory()->create();
 
         // Act as the authenticated user and fetch books with a genre filter
-        $response = $this->actingAs($user, 'api')->getJson('/api/v1/books?genre=Programming');
+        $response = $this->actingAs($user, 'api')->getJson('/api/v1/books?genre=Romance');
 
         // Assert that only the "Programming" books are returned
         $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'Clean Code'])
-            ->assertJsonMissing(['name' => 'Design Patterns']);
+            ->assertJsonFragment(['title' => 'Pride and Prejudice'])
+            ->assertJsonMissing(['title' => 'To Kill a Mockingbird']);
     }
 
     /**
@@ -80,19 +80,19 @@ class BookControllerTest extends TestCase
     public function test_can_fetch_books_with_both_filters()
     {
         // Create some books in the database
-        Book::factory()->create(['name' => 'Clean Code', 'genre' => 'Programming']);
-        Book::factory()->create(['name' => 'Design Patterns', 'genre' => 'Architecture']);
+        Book::factory()->create(['title' => 'Pride and Prejudice', 'author' => 'Jane Austen', 'isbn' => '9780141199078', 'genre' => 'Romance']);
+        Book::factory()->create(['title' => 'To Kill a Mockingbird', 'author' => 'Harper Lee', 'isbn' => '9780060935467', 'genre' => 'Classics']);
 
         // Create a user and authenticate the request
         $user = User::factory()->create();
 
         // Act as the authenticated user and fetch books with both filters
-        $response = $this->actingAs($user, 'api')->getJson('/api/v1/books?name=Clean&genre=Programming');
+        $response = $this->actingAs($user, 'api')->getJson('/api/v1/books?title=Pride&genre=Romance');
 
         // Assert that only "Clean Code" is returned with the correct genre
         $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'Clean Code'])
-            ->assertJsonMissing(['name' => 'Design Patterns']);
+            ->assertJsonFragment(['title' => 'Pride and Prejudice'])
+            ->assertJsonMissing(['title' => 'To Kill a Mockingbird']);
     }
 
     /**
@@ -107,8 +107,10 @@ class BookControllerTest extends TestCase
 
         // Create a book
         $book = Book::factory()->create([
-            'name' => 'Clean Code',
-            'genre' => 'Programming',
+            'title' => 'Pride and Prejudice',
+            'genre' => 'Romance',
+            'author' => 'Jane Austen',
+            'isbn' => '9780141199078',
             'quantity' => 10,
         ]);
 

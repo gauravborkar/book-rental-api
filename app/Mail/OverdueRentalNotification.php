@@ -29,7 +29,7 @@ class OverdueRentalNotification extends Mailable
         return $this->subject('Your Rental is Overdue')
                     ->view('emails.overdue_rental')
                     ->with([
-                        'bookName' => $this->rental->book->name,
+                        'bookTitle' => $this->rental->book->title,
                         'rentalDate' => $this->rental->rented_at,
                         'dueDate' => $this->rental->return_date,
                     ]);

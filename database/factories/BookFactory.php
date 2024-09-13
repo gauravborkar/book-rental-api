@@ -11,8 +11,10 @@ class BookFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->sentence,
+            'title' => $this->faker->sentence,
             'genre' => $this->faker->word,
+            'author' => $this->faker->name,
+            'isbn' => $this->faker->numberBetween(1, 10),
             'quantity' => $this->faker->numberBetween(1, 10),
         ];
     }

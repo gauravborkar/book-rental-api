@@ -26,9 +26,9 @@ class BookController extends Controller
      *     tags={"Books"},
      *     security={{"Bearer":{}}},
      *     @OA\Parameter(
-     *         name="name",
+     *         name="title",
      *         in="query",
-     *         description="Filter by book name",
+     *         description="Filter by book title",
      *         required=false,
      *         @OA\Schema(type="string", example="Clean Code")
      *     ),
@@ -58,7 +58,7 @@ class BookController extends Controller
     public function search(Request $request)
     {
         // Extract filters from query parameters
-        $filters = $request->only(['name', 'genre']);
+        $filters = $request->only(['title', 'genre']);
 
         // Call the service to retrieve filtered books
         $books = $this->bookService->searchBooks($filters);

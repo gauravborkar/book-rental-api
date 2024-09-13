@@ -13,7 +13,9 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
+            $table->string('author');
+            $table->string('isbn');
             $table->string('genre');
             $table->integer('quantity')->default(1); // How many copies are available for rent
             $table->timestamps();
