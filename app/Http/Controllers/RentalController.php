@@ -144,7 +144,7 @@ class RentalController extends Controller
         return response()->json($history);
     }
 
-        /**
+    /**
      * @OA\Get(
      *     path="/api/v1/books/{id}/rental-history",
      *     summary="Get rental history for a book",

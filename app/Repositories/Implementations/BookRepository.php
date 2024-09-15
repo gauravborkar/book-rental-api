@@ -3,7 +3,9 @@
 namespace App\Repositories\Implementations;
 
 use App\Models\Book;
+use App\Models\Rental;
 use App\Repositories\Contracts\BookRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class BookRepository implements BookRepositoryInterface
 {
@@ -36,13 +38,19 @@ class BookRepository implements BookRepositoryInterface
      */
     public function getMostOverdueBook()
     {
-        return Rental::with('book') 
+        $rental = Rental::with('book') 
             ->where('status', 'overdue') 
             ->select('book_id', DB::raw('COUNT(book_id) as overdue_count'))
             ->groupBy('book_id')
             ->orderByDesc('overdue_count')
-            ->first()
-            ->book;
+            ->first();
+        
+        // Return the related book if rental is found
+        return $rental ? [
+            'id' => $rental->book->id,
+            'title' => $rental->book->title,
+            'overdue_count' => $rental->overdue_count,
+        ] : null;
     }
 
     /**
@@ -50,9 +58,18 @@ class BookRepository implements BookRepositoryInterface
      */
     public function getMostPopularBook()
     {
-        return Book::withCount('rentals')
-            ->orderByDesc('rentals_count')
+        $rental = Rental::select('book_id', DB::raw('COUNT(*) as rental_count'))
+            ->groupBy('book_id')
+            ->orderByDesc('rental_count')
+            ->with('book')
             ->first();
+
+        // Return the related book if rental is found
+        return $rental ? [
+            'id' => $rental->book->id,
+            'title' => $rental->book->title,
+            'rental_count' => $rental->overdue_count,
+        ] : null;
     }
 
     /**
@@ -60,8 +77,17 @@ class BookRepository implements BookRepositoryInterface
      */
     public function getLeastPopularBook()
     {
-        return Book::withCount('rentals')
-            ->orderBy('rentals_count', 'asc')
+        $rental = Rental::select('book_id', DB::raw('COUNT(*) as rental_count'))
+            ->groupBy('book_id')
+            ->orderBy('rental_count', 'asc')
+            ->with('book')
             ->first();
+
+        // Return the related book if rental is found
+        return $rental ? [
+            'id' => $rental->book->id,
+            'title' => $rental->book->title,
+            'rental_count' => $rental->overdue_count,
+        ] : null;
     }
 }
