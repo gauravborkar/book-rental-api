@@ -94,12 +94,13 @@ class RentalControllerTest extends TestCase
 
         // Attempt to rent the same book again
         $response = $this->actingAs($user, 'api')
-                         ->postJson('/api/books/rent', ['book_id' => $book->id]);
+                         ->postJson('/api/v1/books/rent', ['book_id' => $book->id]);
 
         // Assert that the request is rejected due to validation error
         $response->assertStatus(422)
                  ->assertJson([
                      'status' => 'error',
+                     "message" => "You have already rented this book and have not returned it yet.",
                      'errors' => [
                          'book' => ['You have already rented this book and have not returned it yet.']
                      ]

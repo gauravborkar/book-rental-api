@@ -44,7 +44,6 @@ class StatsController extends Controller
         
         return response()->json([
             'status' => 'success',
-            'message' => 'Stats retrieved successfully',
             'data' => $stats
         ], 200);
     }

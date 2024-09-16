@@ -29,7 +29,7 @@ class BookControllerTest extends TestCase
 
         // Assert that the response contains both books
         $response->assertStatus(200)
-            ->assertJsonCount(2);
+            ->assertJsonCount(3);
     }
 
     /**

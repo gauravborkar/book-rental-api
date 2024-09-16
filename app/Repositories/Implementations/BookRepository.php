@@ -68,7 +68,7 @@ class BookRepository implements BookRepositoryInterface
         return $rental ? [
             'id' => $rental->book->id,
             'title' => $rental->book->title,
-            'rental_count' => $rental->overdue_count,
+            'rental_count' => $rental->rental_count,
         ] : null;
     }
 
@@ -87,7 +87,7 @@ class BookRepository implements BookRepositoryInterface
         return $rental ? [
             'id' => $rental->book->id,
             'title' => $rental->book->title,
-            'rental_count' => $rental->overdue_count,
+            'rental_count' => $rental->rental_count,
         ] : null;
     }
 }

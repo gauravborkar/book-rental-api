@@ -26,14 +26,6 @@ class StatsService
 
         // Get the least popular book (lowest rentals)
         $leastPopularBook = $this->bookRepository->getLeastPopularBook();
-
-        // If no books have been rented or overdue, return 404
-        if (!$mostPopularBook && !$leastPopularBook && !$mostOverdueBook) {
-            return [
-                'status' => 'error',
-                'message' => 'No stats available'
-            ];
-        }
         
         return [
             'most_popular_book' => $mostPopularBook,
