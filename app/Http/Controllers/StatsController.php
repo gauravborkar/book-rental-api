@@ -41,6 +41,11 @@ class StatsController extends Controller
     public function getStats(): JsonResponse
     {
         $stats = $this->statsService->getBookStats();
-        return response()->json($stats);
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Stats retrieved successfully',
+            'data' => $stats
+        ], 200);
     }
 }

@@ -63,7 +63,10 @@ class BookController extends Controller
         // Call the service to retrieve filtered books
         $books = $this->bookService->searchBooks($filters);
 
-        // Return the result as JSON
-        return response()->json($books);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Book list retrieved successfully',
+            'data' => $books
+        ], 200);
     }
 }

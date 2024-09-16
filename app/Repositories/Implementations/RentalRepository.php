@@ -11,6 +11,21 @@ use Carbon\Carbon;
 class RentalRepository implements RentalRepositoryInterface
 {
     /**
+     * Check if the user has already rented this book and has not returned it.
+     *
+     * @param int $userId
+     * @param int $bookId
+     * @return bool
+     */
+    public function isBookAlreadyRentedByUser($userId, $bookId)
+    {
+        return Rental::where('user_id', $userId)
+            ->where('book_id', $bookId)
+            ->where('status', 'rented') // Assuming 'rented' means the book is currently rented
+            ->exists();
+    }
+
+    /**
      * Rent a book for the user.
      */
     public function rentBook(int $userId, int $bookId, $rentedAt, $returnDate)
@@ -41,7 +56,8 @@ class RentalRepository implements RentalRepositoryInterface
 
         if (!$rental) {
             return [
-                'error' => 'Rental not found or already returned'
+                'status' => 'error',
+                'message' => 'Rental not found or already returned'
             ];
         }
 
@@ -50,6 +66,7 @@ class RentalRepository implements RentalRepositoryInterface
         $rental->save();
 
         return [
+            'status' => 'success',
             'message' => 'Book returned successfully',
             'rental' => $rental
         ];

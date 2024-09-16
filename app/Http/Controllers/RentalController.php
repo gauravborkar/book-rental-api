@@ -6,6 +6,7 @@ use App\Services\RentalService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 /**
  * @OA\Tag(name="Rental", description="Operations related to book rentals")
@@ -64,8 +65,21 @@ class RentalController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $result = $this->rentalService->rentBook(auth()->user()->id, $request->book_id);
-        return response()->json($result);
+        try {
+            $result = $this->rentalService->rentBook(auth()->user()->id, $request->book_id);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Book rented successfully',
+                'data' => $result
+            ], 200);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'errors' => $e->errors(),
+            ], 422);
+        }
     }
 
     /**
@@ -111,6 +125,7 @@ class RentalController extends Controller
         }
 
         $result = $this->rentalService->returnBook(auth()->user()->id, $request->book_id);
+        
         return response()->json($result);
     }
 
@@ -141,7 +156,10 @@ class RentalController extends Controller
     public function rentalHistory(): JsonResponse
     {
         $history = $this->rentalService->getRentalHistoryForUser(auth()->user()->id);
-        return response()->json($history);
+        return response()->json([
+            'status' => 'success',
+            'rental_history' => $history
+        ], 200);
     }
 
     /**

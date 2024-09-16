@@ -78,4 +78,31 @@ class RentalControllerTest extends TestCase
                 'book_id' => $book->id,
             ]);
     }
+
+    public function test_user_cannot_rent_same_book_twice()
+    {
+        // Create a user and a book
+        $user = User::factory()->create();
+        $book = Book::factory()->create();
+
+        // Rent the book for the user
+        Rental::factory()->create([
+            'user_id' => $user->id,
+            'book_id' => $book->id,
+            'status' => 'rented', // Assuming 'rented' means the user hasn't returned the book yet
+        ]);
+
+        // Attempt to rent the same book again
+        $response = $this->actingAs($user, 'api')
+                         ->postJson('/api/books/rent', ['book_id' => $book->id]);
+
+        // Assert that the request is rejected due to validation error
+        $response->assertStatus(422)
+                 ->assertJson([
+                     'status' => 'error',
+                     'errors' => [
+                         'book' => ['You have already rented this book and have not returned it yet.']
+                     ]
+                 ]);
+    }
 }

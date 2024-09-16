@@ -6,6 +6,7 @@ use App\Repositories\Contracts\RentalRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OverdueRentalNotification;
+use Illuminate\Validation\ValidationException;
 
 class RentalService
 {
@@ -21,6 +22,13 @@ class RentalService
      */
     public function rentBook(int $userId, int $bookId): array
     {
+        // Check if the user has already rented this book
+        if ($this->rentalRepository->isBookAlreadyRentedByUser($userId, $bookId)) {
+            throw ValidationException::withMessages([
+                'book' => ['You have already rented this book and have not returned it yet.']
+            ]);
+        }
+
         $rentedAt = Carbon::now();
         $returnDate = Carbon::now()->addWeeks(2); // Set return date to 2 weeks later
 
