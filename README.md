@@ -60,3 +60,15 @@ http://localhost:8000/api/documentation
 ```bash
 docker exec -it book_rental_app php artisan test
 ```
+
+### Step 6: Mark Overdue Rental
+```bash
+docker exec -it book_rental_app php artisan rentals:mark-overdue
+```
+
+OR schedule a cron job
+
+```bash
+crontab -e
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```

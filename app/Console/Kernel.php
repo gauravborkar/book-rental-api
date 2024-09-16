@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Schedule the MarkOverdueRentals command to run daily
-        $schedule->command('rentals:mark-overdue')->daily();
+        $schedule->command('rentals:mark-overdue')->everyMinute();
     }
 
     /**
