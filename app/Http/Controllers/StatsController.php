@@ -21,7 +21,6 @@ class StatsController extends Controller
      *     description="Stats to show the most overdue book, most popular and least popular",
      *     operationId="getStats",
      *     tags={"Statistics"},
-     *     security={{"Bearer":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Stats retrieved successfully",

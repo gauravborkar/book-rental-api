@@ -168,7 +168,6 @@ class RentalController extends Controller
      *     summary="Get rental history for a book",
      *     description="Retrieve the rental history for a specific book by its ID",
      *     tags={"Books"},
-     *     security={{"Bearer":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

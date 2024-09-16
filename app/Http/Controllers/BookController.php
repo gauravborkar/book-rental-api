@@ -24,7 +24,6 @@ class BookController extends Controller
      *     description="Retrieve a list of books with optional filters for name and genre",
      *     operationId="searchBooks",
      *     tags={"Books"},
-     *     security={{"Bearer":{}}},
      *     @OA\Parameter(
      *         name="title",
      *         in="query",
