@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use App\Models\Book;
 use App\Models\Rental;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class BookStatsTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     /**
      * Test fetching book stats (most popular, least popular, most overdue).
