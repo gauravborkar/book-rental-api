@@ -26,6 +26,7 @@ cd book-rental-api
 1. Copy the example environment file to .env:
 ```bash
 cp .env.example .env
+cp .env .env.testing
 ```
 
 2. Update the .env file with appropriate values if necessary. Here are the most important settings:
@@ -38,10 +39,29 @@ DB_USERNAME=root
 DB_PASSWORD=root
 
 JWT_SECRET=your-jwt-secret
+
+MAIL_MAILER=smtp
+MAIL_HOST=127.0.0.1
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 ### Step 3: Build and Run the Containers
-1.	Start the application by building the Docker containers:
+1.	Migrate the tables in test db:
+```bash
+php artisan migrate --env=testing
+```
+
+2. Run the tests
+```bash
+php artisan test
+```
+
+3.	Start the application by building the Docker containers:
 ```bash
 docker-compose up --build -d
 ```
